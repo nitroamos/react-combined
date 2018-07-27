@@ -17,6 +17,7 @@ group "demo"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
+apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin:"com.moowork.node"
 apply plugin:"org.grails.plugins.views-json"
@@ -27,11 +28,12 @@ repositories {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-logging"
+    runtime "org.codehaus.groovy:groovy"
+    provided "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
     compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-tomcat"
+    provided "org.springframework.boot:spring-boot-starter-tomcat"
     compile "org.grails:grails-plugin-url-mappings"
     compile "org.grails:grails-plugin-rest"
     compile "org.grails:grails-plugin-codecs"
@@ -64,4 +66,9 @@ dependencies {
 bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always')
     addResources = true
+}
+
+war {
+      from project(':client').buildDir.absolutePath
+      archiveName = "${appName}.war"
 }
